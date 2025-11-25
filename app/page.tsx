@@ -1,6 +1,16 @@
+import { headers } from "next/headers";
 import Image from "next/image";
 
-export default function Home() {
+export default async function Home() {
+  // Safe: server component
+  const ua = (await headers()).get("user-agent") || "";
+
+  // More complete mobile check
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(
+      ua
+    );
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
@@ -33,6 +43,12 @@ export default function Home() {
             </a>{" "}
             center.
           </p>
+          <div>
+            <h1>You are using: {isMobile ? "Mobile" : "Desktop"}</h1>
+            <p className="text-xs text-zinc-500 break-all mt-2">
+              UA: {ua || "Unavailable"}
+            </p>
+          </div>
         </div>
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a
